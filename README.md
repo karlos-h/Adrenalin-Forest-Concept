@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Adrenalin Forest NZ — website
 
-## Getting Started
+Rebuild of adrenalin-forest.co.nz: Next.js (App Router, TypeScript),
+Tailwind CSS v4, Sanity CMS, Appointedd booking embeds. Deploys to Vercel.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build (all pages static, ISR 1h)
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site runs with **no configuration** — until a Sanity project is set
+up, content comes from the local seeds in `src/lib/seed/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Before launch
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Client sign-off** — everything in [CONTENT-SIGNOFF.md](CONTENT-SIGNOFF.md)
+   (prices, hours, phone numbers, Auckland address, booking IDs,
+   testimonials, photography).
+2. **Sanity** — create a project at sanity.io/manage, copy `.env.example`
+   to `.env.local`, fill in the project ID, then:
+   - `npx tsx scripts/seed-sanity.mjs` to import the seed content
+   - `npx sanity dev` to run the Studio (schemas in `sanity/schemaTypes/`)
+   - Upload real photography and the conditions-of-entry PDF in the Studio
+3. **Appointedd** — see [docs/appointedd.md](docs/appointedd.md) for
+   booking IDs and widget branding.
+4. **Contact form** — currently opens the visitor's mail client; wire it
+   to an email service if the client wants server-side sending.
 
-## Learn More
+## How it fits together
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Design tokens** live in `src/app/globals.css` (Brand Reference v1,
+  final). Components consume Tailwind theme classes (`bg-cta`,
+  `text-ink-500`, `font-display`, `text-hero`) — never raw hex/px.
+- **Location accents** — `LocationTheme` (or any `data-accent` attribute)
+  flips the semantic tokens `--color-cta` / `--color-cta-hover` /
+  `--color-highlight-bg` per location. National pages use the forest-700
+  defaults. Never mix two accents on one page.
+- **Content** — pages call `src/lib/content.ts` only. It queries Sanity
+  when configured, otherwise the seeds. Prices, hours and restrictions
+  render exclusively from CMS fields (single source of truth).
+- **Seasonal hours** — `src/lib/hours.ts` picks the season matching
+  today's date in NZ time; `HoursWidget` shows it as "Now".
+- **Redirects** — the old Joomla URL map is in `next.config.ts`.
+- **SEO** — per-page metadata, LocalBusiness JSON-LD on location pages,
+  `sitemap.ts` / `robots.ts`.

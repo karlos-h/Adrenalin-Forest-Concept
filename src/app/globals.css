@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Adrenalin Forest design tokens — Brand Reference v1 (July 2026). Final.
+   Components must consume these via Tailwind theme classes or var(); never
+   hardcode hex values or px font sizes in components.
+--------------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core palette */
+  --forest-900: #132a21;
+  --forest-700: #1e4d3b;
+  --forest-500: #3e7c59;
+  --canopy-200: #cfe3d4;
+  --paper-50: #f7f5f0;
+  --ink-900: #1c1e1d;
+  --ink-500: #5a605c;
+
+  /* Location accents */
+  --accent-christchurch: #0f8b8d;
+  --accent-christchurch-dark: #0a6163;
+  --accent-christchurch-tint: #d9eeee;
+  --accent-wellington: #e8a013;
+  --accent-wellington-dark: #b87b0a;
+  --accent-wellington-tint: #fbeed3;
+  --accent-bay-of-plenty: #e45f2b;
+  --accent-bay-of-plenty-dark: #b04518;
+  --accent-bay-of-plenty-tint: #fae0d4;
+  --accent-auckland: #6e56a6;
+  --accent-auckland-dark: #4e3b7d;
+  --accent-auckland-tint: #e4def2;
+
+  /* Semantic tokens — national default (forest-700 accent).
+     Overridden per route by [data-accent] below. */
+  --color-cta: var(--forest-700);
+  --color-cta-hover: var(--forest-900);
+  --color-highlight-bg: var(--canopy-200);
+  --color-success: #3e7c59;
+  --color-warning: #e8a013;
+  --color-error: #c0392b;
+}
+
+/* Location accent themes — set data-accent on the page wrapper.
+   Never mix two accents on one page. */
+[data-accent="christchurch"] {
+  --color-cta: var(--accent-christchurch);
+  --color-cta-hover: var(--accent-christchurch-dark);
+  --color-highlight-bg: var(--accent-christchurch-tint);
+}
+
+[data-accent="wellington"] {
+  --color-cta: var(--accent-wellington);
+  --color-cta-hover: var(--accent-wellington-dark);
+  --color-highlight-bg: var(--accent-wellington-tint);
+}
+
+[data-accent="bay-of-plenty"] {
+  --color-cta: var(--accent-bay-of-plenty);
+  --color-cta-hover: var(--accent-bay-of-plenty-dark);
+  --color-highlight-bg: var(--accent-bay-of-plenty-tint);
+}
+
+[data-accent="auckland"] {
+  --color-cta: var(--accent-auckland);
+  --color-cta-hover: var(--accent-auckland-dark);
+  --color-highlight-bg: var(--accent-auckland-tint);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Colors → bg-forest-700, text-ink-500, bg-cta, hover:bg-cta-hover … */
+  --color-*: initial;
+  --color-forest-900: var(--forest-900);
+  --color-forest-700: var(--forest-700);
+  --color-forest-500: var(--forest-500);
+  --color-canopy-200: var(--canopy-200);
+  --color-paper-50: var(--paper-50);
+  --color-ink-900: var(--ink-900);
+  --color-ink-500: var(--ink-500);
+  --color-cta: var(--color-cta);
+  --color-cta-hover: var(--color-cta-hover);
+  --color-highlight: var(--color-highlight-bg);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Typography — Barlow (body/UI), Barlow Condensed (display) */
+  --font-sans: var(--font-barlow), -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-barlow-condensed), var(--font-barlow),
+    -apple-system, "Segoe UI", sans-serif;
+
+  /* Type scale (desktop): hero 64–88 · h2 40 · h3 28 · body 17/1.6 · caption 14 */
+  --text-hero: clamp(2.75rem, 2rem + 4vw, 5.5rem);
+  --text-hero--line-height: 1.05;
+  --text-h2: clamp(2rem, 1.75rem + 1.2vw, 2.5rem);
+  --text-h2--line-height: 1.1;
+  --text-h3: clamp(1.5rem, 1.4rem + 0.5vw, 1.75rem);
+  --text-h3--line-height: 1.15;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.45;
+  --text-stat: clamp(1.75rem, 1.5rem + 1.5vw, 2.5rem);
+  --text-stat--line-height: 1.05;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper-50);
+  color: var(--ink-900);
+  font-family: var(--font-barlow), -apple-system, "Segoe UI", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+/* Visible focus for keyboard users on any accent background */
+:focus-visible {
+  outline: 3px solid var(--color-cta);
+  outline-offset: 2px;
+}
+
+.on-dark :focus-visible,
+[data-on-dark] :focus-visible {
+  outline-color: #ffffff;
 }
