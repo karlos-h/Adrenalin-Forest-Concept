@@ -5,20 +5,23 @@ import { SEED_FAQS } from "@/lib/seed/faqs";
  * Seed content for the four parks, used until the Sanity project is live
  * (and importable into it via scripts/seed-sanity.mjs).
  *
- * ⚠ CLIENT SIGN-OFF REQUIRED — see CONTENT-SIGNOFF.md. All prices, hours,
- * course counts, phone numbers, addresses and the Auckland/BoP booking IDs
- * below are placeholders pending confirmation. Do not launch without
- * sign-off.
+ * ⚠ CLIENT SIGN-OFF REQUIRED — see CONTENT-SIGNOFF.md. Hours, course
+ * counts, phone numbers, addresses and the Auckland/BoP booking IDs are
+ * placeholders pending confirmation. Prices were taken from
+ * adrenalin-forest.co.nz/pricing on 12 Jul 2026 (Auckland had none listed
+ * there and mirrors Wellington until confirmed).
  */
 
-// Shared placeholder pricing — CONFIRM PER LOCATION before launch.
-const PLACEHOLDER_PRICES: Price[] = [
-  { label: "Adult (16+)", amount: 53 },
-  { label: "Student (with ID)", amount: 47 },
-  { label: "Youth (under 16)", amount: 39, note: "Must climb with an adult 18+" },
-  { label: "GoPro hire", amount: 20, note: "Capture your climb hands-free" },
-  { label: "Spectators", amount: 0, note: "Walk the forest floor for free" },
-];
+// Prices as published on the old site's pricing page, 12 Jul 2026.
+function sitePrices(adult: number, student: number, child: number): Price[] {
+  return [
+    { label: "Adult", amount: adult },
+    { label: "NZ University Student (with ID)", amount: student },
+    { label: "Child (U18, over 1.4m)", amount: child, note: "Under-16s climb with an adult 18+" },
+    { label: "10 Adult Concession Card", amount: 460, note: "Valid at all locations" },
+    { label: "10 Child Concession Card", amount: 350, note: "Valid at all locations" },
+  ];
+}
 
 // Shared placeholder seasonal hours — CONFIRM PER LOCATION before launch.
 const PLACEHOLDER_HOURS: SeasonalHours[] = [
@@ -75,15 +78,21 @@ export const SEED_LOCATIONS: Location[] = [
       src: "/images/hero-christchurch.svg",
       alt: "High-wire course through the pines at Spencer Park, Christchurch",
     },
-    gallery: gallery("christchurch", "Christchurch"),
+    // Photos from the old site (low-res, ~300px) — placeholder until real photography
+    gallery: [
+      { src: "/images/current-site/chch-drone.jpg", alt: "Aerial drone view over the Adrenalin Forest course at Spencer Park, Christchurch" },
+      { src: "/images/current-site/chch-course.jpg", alt: "Climbers on the high-wire course at Adrenalin Forest Christchurch" },
+      { src: "/images/current-site/chch-surf-combo.jpg", alt: "Adrenalin Max combo — high wire and surfing at Spencer Park beach" },
+      { src: "/images/current-site/gopro.jpg", alt: "GoPro hire — capture your climb hands-free" },
+    ],
     intro:
       "Six levels through the Spencer Park pines, 15–20 minutes north of the city. Finish your climb, then hit the beach next door.",
     courseCount: 6,
     seasonalHours: PLACEHOLDER_HOURS,
-    prices: PLACEHOLDER_PRICES,
+    prices: sitePrices(50, 42, 35),
     restrictions: STANDARD_RESTRICTIONS,
     appointeddBookingId: "621bd0783d3b8068043f5d59",
-    mapImage: { src: "/images/map-christchurch.svg", alt: "Park map of Adrenalin Forest Christchurch" },
+    mapImage: { src: "/images/current-site/map-chch.jpg", alt: "Park map of Adrenalin Forest Christchurch" },
     googleMapsEmbedUrl:
       "https://www.google.com/maps?q=Spencer+Park,+Christchurch,+New+Zealand&output=embed",
     directions:
@@ -100,15 +109,21 @@ export const SEED_LOCATIONS: Location[] = [
       src: "/images/hero-wellington.svg",
       alt: "Climber on the top level above the trees at Adrenalin Forest Wellington",
     },
-    gallery: gallery("wellington", "Wellington"),
+    // Photos from the old site (low-res, ~300px) — placeholder until real photography
+    gallery: [
+      { src: "/images/current-site/wellington-drone.jpg", alt: "Aerial drone view over the Adrenalin Forest Wellington course" },
+      { src: "/images/current-site/the-pulse.jpg", alt: "Climber crossing an obstacle high in the trees" },
+      { src: "/images/current-site/course-clip.jpg", alt: "Climbers making their way along the high-wire course" },
+      { src: "/images/current-site/course-ad.jpg", alt: "The forest canopy course at Adrenalin Forest" },
+    ],
     intro:
       "The capital's biggest climb — 6 levels rising above Porirua, with harbour views for anyone game enough to look down.",
     courseCount: 6,
     seasonalHours: PLACEHOLDER_HOURS,
-    prices: PLACEHOLDER_PRICES,
+    prices: sitePrices(52, 44, 37),
     restrictions: STANDARD_RESTRICTIONS,
     appointeddBookingId: "65db8e9a116aec61c7068a7f",
-    mapImage: { src: "/images/map-wellington.svg", alt: "Park map of Adrenalin Forest Wellington" },
+    mapImage: { src: "/images/current-site/map-wgtn.png", alt: "Park map of Adrenalin Forest Wellington" },
     googleMapsEmbedUrl:
       "https://www.google.com/maps?q=Adrenalin+Forest+Wellington,+Porirua,+New+Zealand&output=embed",
     directions:
@@ -125,15 +140,21 @@ export const SEED_LOCATIONS: Location[] = [
       src: "/images/hero-bay-of-plenty.svg",
       alt: "High-wire obstacles through tall forest at Adrenalin Forest Bay of Plenty",
     },
-    gallery: gallery("bay-of-plenty", "Bay of Plenty"),
+    // Photos from the old site (low-res, ~300px) — placeholder until real photography
+    gallery: [
+      { src: "/images/current-site/bop-course.jpg", alt: "High-wire obstacles through tall forest at Adrenalin Forest Bay of Plenty" },
+      { src: "/images/current-site/bop-course-2.jpg", alt: "Climbers on the Bay of Plenty course in TECT Park" },
+      { src: "/images/current-site/bop-stix.jpg", alt: "The Stix ultimate tree climb at Bay of Plenty" },
+      { src: "/images/current-site/gopro.jpg", alt: "GoPro hire — capture your climb hands-free" },
+    ],
     intro:
       "Deep in TECT Park between Tauranga and Rotorua — 6 levels of real forest, real height and no shortage of stories for the drive home.",
     courseCount: 6,
     seasonalHours: PLACEHOLDER_HOURS,
-    prices: PLACEHOLDER_PRICES,
+    prices: sitePrices(50, 42, 35),
     restrictions: STANDARD_RESTRICTIONS,
     appointeddBookingId: null, // CONFIRM booking ID with client
-    mapImage: { src: "/images/map-bay-of-plenty.svg", alt: "Park map of Adrenalin Forest Bay of Plenty" },
+    mapImage: { src: "/images/current-site/map-bop.jpg", alt: "Park map of Adrenalin Forest Bay of Plenty" },
     googleMapsEmbedUrl:
       "https://www.google.com/maps?q=TECT+All+Terrain+Park,+New+Zealand&output=embed",
     directions:
@@ -155,7 +176,8 @@ export const SEED_LOCATIONS: Location[] = [
       "Auckland's turn to look up — 6 levels of high-wire forest just out of the city. Bring your mates, leave your excuses.",
     courseCount: 6,
     seasonalHours: PLACEHOLDER_HOURS,
-    prices: PLACEHOLDER_PRICES,
+    // Old site listed no Auckland pricing — mirrors Wellington until confirmed
+    prices: sitePrices(52, 44, 37),
     restrictions: STANDARD_RESTRICTIONS,
     appointeddBookingId: null, // CONFIRM booking ID with client
     mapImage: { src: "/images/map-auckland.svg", alt: "Park map of Adrenalin Forest Auckland" },
